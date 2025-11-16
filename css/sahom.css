@@ -1,0 +1,271 @@
+        /* --- تنظیمات کلی --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            /* این همون پس‌زمینه دارک تیل فضایی */
+            background-color: #002a2a; /* رنگ پایه */
+            background-image: radial-gradient(ellipse at bottom, #013a3a 0%, #000d0d 100%);
+            
+            color: #e0f7fa; /* رنگ متن اصلی (سفید مایل به آبی) */
+            font-family: 'Vazirmatn', sans-serif; /* فونت وزیر (یا هر فونت فارسی دیگه) */
+            min-height: 100vh;
+            
+            /* مهم: این جلوی اسکرول افقی به خاطر انیمیشن‌ها رو میگیره */
+            overflow-x: hidden; 
+        }
+
+        /* --- ۱. انیمیشن ستاره‌های چشمک‌زن --- */
+
+        
+
+        @keyframes twinkle {
+            0%   { opacity: 0.3; }
+            50%  { opacity: 0.8; }
+            100% { opacity: 0.3; }
+        }
+
+        .stars-background {
+            position: fixed; /* ثابته تا پشت همه چی بمونه */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* میره پشت همه چی */
+        }
+
+        /* لایه ستاره‌های ریز (دورتر) */
+        .stars-small {
+            height: 100%;
+            width: 100%;
+            background: transparent;
+            background-image: radial-gradient(1px 1px at 25px 55px, #fff, transparent),
+                              radial-gradient(1px 1px at 75px 105px, #fff, transparent),
+                              radial-gradient(1px 1px at 125px 155px, #fff, transparent);
+            background-size: 200px 200px;
+            animation: twinkle 10s linear infinite;
+        }
+
+        /* لایه ستاره‌های متوسط */
+        .stars-medium {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: transparent;
+            background-image: radial-gradient(2px 2px at 50px 100px, #fff, transparent),
+                              radial-gradient(2px 2px at 150px 50px, #fff, transparent);
+            background-size: 300px 300px;
+            animation: twinkle 15s linear infinite;
+            animation-delay: 2s; /* با تاخیر شروع میشه که با قبلی یکی نباشه */
+        }
+
+
+        /* --- ۲. انیمیشن ستاره‌های دنباله‌دار --- */
+
+        /* یه محفظه که ستاره‌ها از توش رد میشن */
+        .shooting-stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            transform: rotate(-30deg); /* زاویه کلی حرکت شهاب‌ها */
+        }
+
+        .shooting-star {
+            position: absolute;
+            left: -100px; /* شروع از خارج صفحه */
+            height: 2px;
+            width: 150px; /* طول دُم */
+            background: linear-gradient(90deg, #fff, transparent);
+            opacity: 0;
+            
+            /* انیمیشن اصلی حرکت */
+            animation: shoot 5s linear infinite;
+        }
+
+        /* سه تا ستاره با تاخیرها و مکان‌های مختلف */
+        .shooting-star:nth-child(1) {
+            top: 20%;
+            animation-delay: 0s;
+            animation-duration: 4s; /* سریع‌تر */
+        }
+        .shooting-star:nth-child(2) {
+            top: 50%;
+            animation-delay: 3s;
+            animation-duration: 6s;
+        }
+        .shooting-star:nth-child(3) {
+            top: 80%;
+            animation-delay: 1.5s;
+            animation-duration: 5s;
+        }
+
+
+        @keyframes shoot {
+            0% {
+                transform: translateX(0);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1; /* ظاهر میشه */
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(150vw); /* حرکت تا اونور صفحه */
+                opacity: 0; /* محو میشه */
+            }
+        }
+
+
+        /* --- ۳. استایل محتوای صفحه --- */
+        
+        /* یه لایه برای محتوا که روی پس‌زمینه باشه */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* هدر و منو */
+        header {
+            width: 100%;
+            padding: 25px 0;
+            border-bottom: 1px solid rgba(0, 188, 212, 0.2);
+            display: flex;
+            justify-content: center;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        nav a {
+            color: #e0f7fa;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+        nav a:hover, nav a.active {
+            color: #fff;
+            border-bottom-color: #00bcd4; /* رنگ فیروزه‌ای روشن */
+        }
+
+        /* بخش اصلی (Hero) */
+        .hero {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 0;
+        }
+        .hero h1 {
+            font-size: 3.5rem; /* 3.5 برابر اندازه فونت اصلی */
+            font-weight: 700;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px rgba(0, 188, 212, 0.5);
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: #b2dfdb; /* سبز-آبی روشن */
+            margin-bottom: 40px;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #fff;
+            border: 2px solid #00bcd4;
+            background-color: transparent;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* دکمه دایره‌ای LAUNCH */
+        .btn-launch {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            background-color: rgba(0, 188, 212, 0.1);
+        }
+        .btn-launch:hover {
+            background-color: rgba(0, 188, 212, 0.3);
+            box-shadow: 0 0 20px rgba(0, 188, 212, 0.7);
+        }
+
+        /* دکمه مستطیلی LEARN MORE */
+        .btn-learn {
+            padding: 12px 25px;
+            border-radius: 5px;
+        }
+        .btn-learn:hover {
+            background-color: #00bcd4;
+            color: #002a2a;
+        }
+
+        /* بخش فیچرها (شش‌ضلعی‌ها) */
+        .features {
+            display: flex;
+            flex-wrap: wrap; /* در موبایل زیر هم میان */
+            justify-content: center;
+            gap: 30px;
+            padding-bottom: 60px; /* فاصله از پایین صفحه */
+            width: 100%;
+            max-width: 900px;
+        }
+        .feature-box {
+            width: 220px;
+            height: 250px; /* ارتفاع بیشتر برای شش‌ضلعی */
+            background-color: rgba(0, 77, 64, 0.3); /* پس‌زمینه نیمه‌شفاف */
+            border: 1px solid #004d40;
+            
+            /* این کد شش‌ضلعی رو میسازه */
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .feature-box:hover {
+            background-color: rgba(0, 105, 92, 0.5);
+            transform: scale(1.05);
+        }
+        .feature-box span {
+            font-size: 3rem; /* اندازه اموجی/آیکون */
+            margin-bottom: 15px;
+        }
+        .feature-box h3 {
+            font-size: 1rem;
+            color: #fff;
+        }
+
